@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		947E853723EA410600BA998F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 947E853623EA410600BA998F /* main.cpp */; };
+		947E854123EA4B3700BA998F /* libmpi.40.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 947E853E23EA41A600BA998F /* libmpi.40.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,8 @@
 /* Begin PBXFileReference section */
 		947E853323EA410600BA998F /* hello_mpi_topology */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = hello_mpi_topology; sourceTree = BUILT_PRODUCTS_DIR; };
 		947E853623EA410600BA998F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		947E853E23EA41A600BA998F /* libmpi.40.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmpi.40.dylib; path = ../../../../../usr/local/lib/libmpi.40.dylib; sourceTree = "<group>"; };
+		947E854223EA4CC400BA998F /* hello_mpi_topology.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = hello_mpi_topology.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				947E854123EA4B3700BA998F /* libmpi.40.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,6 +47,7 @@
 			children = (
 				947E853523EA410600BA998F /* hello_mpi_topology */,
 				947E853423EA410600BA998F /* Products */,
+				947E853D23EA41A500BA998F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,9 +62,18 @@
 		947E853523EA410600BA998F /* hello_mpi_topology */ = {
 			isa = PBXGroup;
 			children = (
+				947E854223EA4CC400BA998F /* hello_mpi_topology.entitlements */,
 				947E853623EA410600BA998F /* main.cpp */,
 			);
 			path = hello_mpi_topology;
+			sourceTree = "<group>";
+		};
+		947E853D23EA41A500BA998F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				947E853E23EA41A600BA998F /* libmpi.40.dylib */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,6 +190,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -228,6 +244,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/local/include;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -238,6 +256,7 @@
 		947E853B23EA410600BA998F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = hello_mpi_topology/hello_mpi_topology.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 822W3966Q9;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -248,6 +267,7 @@
 		947E853C23EA410600BA998F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = hello_mpi_topology/hello_mpi_topology.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 822W3966Q9;
 				ENABLE_HARDENED_RUNTIME = YES;
