@@ -91,9 +91,7 @@ int main(int argc, char * argv[]) {
         std::vector<individual> population = initial_population(MU);
         
         for(std::vector<individual>::iterator it = population.begin(); it != population.end(); ++it) {
-
             printf("[%f,%f] %f -> %f\r\n", it->x[0], it->x[1], it->result, it->fitness);
-
         }
         
         // separate the full population into island subpopulations ...
@@ -103,11 +101,9 @@ int main(int argc, char * argv[]) {
         create_topology(islands);
         
         // we want to evolve the population on each island separately, then perform
-        // a population migration of n individuals at some interval ...
-        
+        // a population migration of n individuals at some interval
         // for each island population, perform the local search evolution using
         // parent selection, crossover, mutation, and survival selection ...
-        
         
         for(int eval = 1; eval <= EVALS; eval++) {
         
@@ -118,8 +114,6 @@ int main(int argc, char * argv[]) {
                 printf("\r\nIsland %d\r\n", island->id);
                 
                 island->calc_cpd();
-                
-                // create lambda offspring, parent selection ...
                 
                 std::vector<individual> children = crossover(*island);
                 

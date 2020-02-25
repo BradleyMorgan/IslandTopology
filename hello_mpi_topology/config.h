@@ -15,7 +15,6 @@ const static unsigned int LAMBDA = 10;
 const static unsigned int MU = 60;
 const static unsigned int ISLANDS = 3;
 const static unsigned int IMU = MU / ISLANDS;
-const static double MUTATION_RATE = 0.90;
-
+const static double MUTATION_RATE = 0.03;
 
 #endif /* config_h */

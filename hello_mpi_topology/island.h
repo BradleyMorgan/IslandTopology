@@ -24,12 +24,16 @@ struct individual {
     
 };
 
+// island data structure to hold subpopulations and corresponding
+// properties ...
+
 struct island {
     
     unsigned int id = 0;
     double total_fitness = 0;
-    std::vector<individual> population;
+    
     std::vector<double> cpd;
+    std::vector<individual> population;
     std::vector<island> neighbors;
     
     // calculate the island's total fitness for distribution ...
@@ -41,10 +45,9 @@ struct island {
         std::vector<individual>::iterator it;
         
         for(it = this->population.begin(); it != this->population.end(); ++it) {
-            
             this->total_fitness += it->fitness;
-            
         }
+        
     }
     
     // this function calculates the cumulative probability distribution to be used by

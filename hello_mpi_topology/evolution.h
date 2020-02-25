@@ -76,11 +76,7 @@ std::vector<individual> crossover(const island &isle) {
         child.x[0] = p1.x[1];
         child.x[1] = p2.x[0];
         
-        if(rand()/(RAND_MAX+1.0) < MUTATION_RATE) {
-            
-            mutate(child);
-            
-        }
+        if(rand()/(RAND_MAX+1.0) < MUTATION_RATE) { mutate(child); }
         
         child.result = rastrigin(child.x);
         child.fitness = child.result * -1;
@@ -111,7 +107,7 @@ std::vector<individual> fitness_proportional_selection(const island &isle) {
         
         double r = ((double)rand()/(double)RAND_MAX);
         
-        while (isle.cpd[i] < r ) { i++; }
+        while(isle.cpd[i] < r ) { i++; }
         
         parents.push_back(isle.population[i]);
         
@@ -122,7 +118,5 @@ std::vector<individual> fitness_proportional_selection(const island &isle) {
     return parents;
     
 }
-
-
 
 #endif /* evolution_h */
