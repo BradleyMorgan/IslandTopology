@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		947E853723EA410600BA998F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 947E853623EA410600BA998F /* main.cpp */; };
-		947E854123EA4B3700BA998F /* libmpi.40.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 947E853E23EA41A600BA998F /* libmpi.40.dylib */; };
+		9A43585024046AF7008C59D9 /* libmpi.40.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 947E853E23EA41A600BA998F /* libmpi.40.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -28,6 +28,10 @@
 		947E853623EA410600BA998F /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		947E853E23EA41A600BA998F /* libmpi.40.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmpi.40.dylib; path = ../../../../../usr/local/lib/libmpi.40.dylib; sourceTree = "<group>"; };
 		947E854223EA4CC400BA998F /* hello_mpi_topology.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = hello_mpi_topology.entitlements; sourceTree = "<group>"; };
+		9A435851240473D6008C59D9 /* island.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = island.h; sourceTree = "<group>"; };
+		9A4358522404760E008C59D9 /* evolution.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = evolution.h; sourceTree = "<group>"; };
+		9AFFED162404813400E5E227 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		9AFFED172404816000E5E227 /* utility.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utility.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,7 +39,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				947E854123EA4B3700BA998F /* libmpi.40.dylib in Frameworks */,
+				9A43585024046AF7008C59D9 /* libmpi.40.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,6 +68,10 @@
 			children = (
 				947E854223EA4CC400BA998F /* hello_mpi_topology.entitlements */,
 				947E853623EA410600BA998F /* main.cpp */,
+				9A435851240473D6008C59D9 /* island.h */,
+				9A4358522404760E008C59D9 /* evolution.h */,
+				9AFFED162404813400E5E227 /* config.h */,
+				9AFFED172404816000E5E227 /* utility.h */,
 			);
 			path = hello_mpi_topology;
 			sourceTree = "<group>";
