@@ -14,6 +14,7 @@
 #include <vector>
 #include "island.h"
 #include "evolution.h"
+#include "mpi.h"
 
 // populate an initial population with random inputs ...
 
@@ -78,6 +79,14 @@ std::vector<island> subpopulate(std::vector<individual> population, int n) {
 
 int main(int argc, char * argv[]) {
     
+    MPI_Init(NULL, NULL);
+    
+    int world_size;
+    MPI_Comm_size(MPI_COMM_WORLD, &world_size);
+    
+    int world_rank;
+    MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
+    
     // random number seeding ...
     
     timeval time;
@@ -85,18 +94,18 @@ int main(int argc, char * argv[]) {
     srand((unsigned int)(time.tv_sec * 1000) + time.tv_usec);
     
     for(int run = 1; run <= RUNS; run++) {
-    
+        
         // initialize the population with random individuals ...
         
         std::vector<individual> population = initial_population(MU);
         
-        for(std::vector<individual>::iterator it = population.begin(); it != population.end(); ++it) {
-            printf("[%f,%f] %f -> %f\r\n", it->x[0], it->x[1], it->result, it->fitness);
-        }
-        
+//        for(std::vector<individual>::iterator it = population.begin(); it != population.end(); ++it) {
+//            printf("[%f,%f] %f -> %f\r\n", it->x[0], it->x[1], it->result, it->fitness);
+//        }
+
         // separate the full population into island subpopulations ...
         
-        std::vector<island> islands = subpopulate(population, ISLANDS);
+        std::vector<island> islands = subpopulate(population, world_size);
         
         create_topology(islands);
         
@@ -111,22 +120,26 @@ int main(int argc, char * argv[]) {
             
             for(island = islands.begin(); island != islands.end(); ++island) {
              
-                printf("\r\nIsland %d\r\n", island->id);
-                
-                island->calc_cpd();
-                
-                std::vector<individual> children = crossover(*island);
-                
-                select_survivors(*island, children);
-                
-                for(std::vector<individual>::iterator it = island->population.begin(); it != island->population.end(); ++it) {
+                if(island->id == world_rank) {
+    
+                    printf("\r\nIsland %d, Rank: %d\r\n", island->id, world_rank);
+                    
+                    island->calc_cpd();
+                    
+                    std::vector<individual> children = crossover(*island);
+                    
+                    select_survivors(*island, children);
+                    
+                    for(std::vector<individual>::iterator it = island->population.begin(); it != island->population.end(); ++it) {
 
-                    printf("[%f,%f] %f -> %f\r\n", it->x[0], it->x[1], it->result, it->fitness);
+                        printf("[%f,%f] %f -> %f\r\n", it->x[0], it->x[1], it->result, it->fitness);
 
+                    }
+                    
+                    island->receive_migrant();
+                    
                 }
                 
-                island->receive_migrant();
-
             }
             
         }
