@@ -48,20 +48,20 @@ std::vector<island> subpopulate(std::vector<individual> population, int n) {
     
     int island_size = ((int)population.size() - 1) / n + 1;
     
-    for (int i = 0; i<island_size; ++i) {
+    for (int i = 0; i<n; ++i) {
         
         island isle;
         
         isle.id = i;
         
-        auto start_it = std::next(population.cbegin(), i*n);
-        auto end_it = std::next(population.cbegin(), i*n + n);
+        auto start_it = std::next(population.cbegin(), i*island_size);
+        auto end_it = std::next(population.cbegin(), i*island_size + island_size);
 
-        isle.population.resize(n);
+        isle.population.resize(island_size);
         
         if (i*n + n > population.size()) {
             end_it = population.cend();
-            isle.population.resize(population.size() - i*n);
+            isle.population.resize(population.size() - i*island_size);
         }
 
         std::copy(start_it, end_it, isle.population.begin());
@@ -100,11 +100,14 @@ int main(int argc, char * argv[]) {
         
         std::vector<island> islands = subpopulate(population, ISLANDS);
         
+        create_topology(islands);
+        
         // we want to evolve the population on each island separately, then perform
         // a population migration of n individuals at some interval ...
         
         // for each island population, perform the local search evolution using
         // parent selection, crossover, mutation, and survival selection ...
+        
         
         for(int eval = 1; eval <= EVALS; eval++) {
         
@@ -120,8 +123,6 @@ int main(int argc, char * argv[]) {
                 
                 std::vector<individual> children = crossover(*island);
                 
-                island->calc_cpd();
-                
                 select_survivors(*island, children);
                 
                 for(std::vector<individual>::iterator it = island->population.begin(); it != island->population.end(); ++it) {
@@ -130,8 +131,8 @@ int main(int argc, char * argv[]) {
 
                 }
                 
-                
-                
+                island->receive_migrant();
+
             }
             
         }

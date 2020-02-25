@@ -56,11 +56,9 @@ void select_survivors(island &isle, std::vector<individual> &children) {
     
 }
 
-individual mutate(individual mutant) {
+void mutate(individual &mutant) {
 
     mutant.x[0] = drand(-5.12, 5.12);
-    
-    return mutant;
     
 }
 
@@ -75,17 +73,17 @@ std::vector<individual> crossover(const island &isle) {
         
         individual child;
         
-        child.x[0] = p1.x[rand()%2];
-        child.x[1] = p2.x[rand()%2];
-        
-        child.result = rastrigin(child.x);
-        child.fitness = child.result * -1;
+        child.x[0] = p1.x[1];
+        child.x[1] = p2.x[0];
         
         if(rand()/(RAND_MAX+1.0) < MUTATION_RATE) {
             
             mutate(child);
             
         }
+        
+        child.result = rastrigin(child.x);
+        child.fitness = child.result * -1;
         
         children.push_back(child);
         

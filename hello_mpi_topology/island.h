@@ -30,6 +30,7 @@ struct island {
     double total_fitness = 0;
     std::vector<individual> population;
     std::vector<double> cpd;
+    std::vector<island> neighbors;
     
     // calculate the island's total fitness for distribution ...
     
@@ -67,12 +68,35 @@ struct island {
         
     }
     
-    void receive_migrant(individual migrant) {
+    void receive_migrant() {
         
-        this->population[rand()%this->population.size()] = migrant;
+        printf("Receiving migrant from island %d: [%f,%f]\r\n", this->neighbors[0].id, this->neighbors[0].population[0].x[0], this->neighbors[0].population[0].x[1]);
+        
+        this->population[0] = this->neighbors[0].population[0];
         
     }
     
 };
+
+void create_topology(std::vector<island> &islands) {
+    
+    std::vector<island>::iterator it;
+    
+    for(it = islands.begin(); it != islands.end(); ++it) {
+        
+        int next = it->id+1;
+        
+        if(next < islands.size()) {
+            it->neighbors.push_back(islands[next]);
+        } else {
+            next = 0;
+            it->neighbors.push_back(islands[next]);
+        }
+        
+        printf("%d -> %d\r\n", it->id, next);
+        
+    }
+    
+}
 
 #endif /* island_h */
