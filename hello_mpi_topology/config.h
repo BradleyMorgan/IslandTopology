@@ -9,8 +9,8 @@
 #ifndef config_h
 #define config_h
 
-const static unsigned int EVALS = 100;
-const static unsigned int RUNS = 10;
+const static unsigned int EVALS = 2000;
+const static unsigned int RUNS = 30;
 const static unsigned int LAMBDA = 5;
 const static unsigned int MU = 20;
 const static unsigned int ISLANDS = 4;

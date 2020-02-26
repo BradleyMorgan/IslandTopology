@@ -99,20 +99,24 @@ int main(int argc, char * argv[]) {
         
         std::vector<individual> population = initial_population(MU);
         
-//        for(std::vector<individual>::iterator it = population.begin(); it != population.end(); ++it) {
-//            printf("[%f,%f] %f -> %f\r\n", it->x[0], it->x[1], it->result, it->fitness);
-//        }
-
         // separate the full population into island subpopulations ...
+        
+        printf("world size %d\r\n", world_size);
         
         std::vector<island> islands = subpopulate(population, world_size);
         
-        create_topology(islands);
+        printf("islands = %lu\r\n", islands.size());
         
         // we want to evolve the population on each island separately, then perform
         // a population migration of n individuals at some interval
         // for each island population, perform the local search evolution using
         // parent selection, crossover, mutation, and survival selection ...
+        
+        if(world_rank == 0) {
+            printf("RUN %d\r\n", run);
+        }
+        
+        create_topology(islands);
         
         for(int eval = 1; eval <= EVALS; eval++) {
         
@@ -121,8 +125,6 @@ int main(int argc, char * argv[]) {
             for(island = islands.begin(); island != islands.end(); ++island) {
              
                 if(island->id == world_rank) {
-    
-                    printf("\r\nIsland %d, Rank: %d\r\n", island->id, world_rank);
                     
                     island->calc_cpd();
                     
@@ -130,20 +132,28 @@ int main(int argc, char * argv[]) {
                     
                     select_survivors(*island, children);
                     
-                    for(std::vector<individual>::iterator it = island->population.begin(); it != island->population.end(); ++it) {
-
-                        printf("[%f,%f] %f -> %f\r\n", it->x[0], it->x[1], it->result, it->fitness);
-
-                    }
+                    island->send_migrant();
                     
                     island->receive_migrant();
-                    
+        
                 }
                 
+            }
+        
+        }
+        
+        if(world_rank == 0) {
+            
+            for(std::vector<island>::iterator it = islands.begin(); it != islands.end(); ++it) {
+
+                printf("%d [%f,%f] %f\r\n", it->id, it->population[0].x[0], it->population[0].x[1], it->population[0].fitness);
+
             }
             
         }
         
     }
+    
+    MPI_Finalize();
     
 }

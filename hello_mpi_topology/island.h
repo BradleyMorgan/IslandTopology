@@ -9,6 +9,8 @@
 #ifndef island_h
 #define island_h
 
+#include "mpi.h"
+
 const static unsigned int DIM = 2;
 
 // data structure for population individuals holding the input values
@@ -29,12 +31,13 @@ struct individual {
 
 struct island {
     
-    unsigned int id = 0;
+    int id = 0;
     double total_fitness = 0;
     
     std::vector<double> cpd;
     std::vector<individual> population;
-    std::vector<island> neighbors;
+    std::vector<island> senders;
+    std::vector<island> receivers;
     
     // calculate the island's total fitness for distribution ...
     
@@ -73,11 +76,26 @@ struct island {
     
     void receive_migrant() {
         
-        printf("Receiving migrant from island %d: [%f,%f]\r\n", this->neighbors[0].id, this->neighbors[0].population[0].x[0], this->neighbors[0].population[0].x[1]);
+        std::array<double, DIM> x;
         
-        this->population[0] = this->neighbors[0].population[0];
+        MPI_Status migrant_status;
+        
+        MPI_Recv(&x, 2, MPI_DOUBLE, this->senders[0].id, 0, MPI_COMM_WORLD, &migrant_status);
+        
+        //printf("island %d received migrant from island %d: [%f,%f] with status %d\r\n", this->id, migrant_status.MPI_SOURCE, x[0], x[1], migrant_status.MPI_ERROR);
+        
+        this->population[0].x = x;
         
     }
+    
+    void send_migrant() {
+        
+        MPI_Send(&this->population[0].x, 2, MPI_DOUBLE, this->receivers[0].id, 0, MPI_COMM_WORLD);
+        
+        //printf("island %d sending migrant to island %d: [%f,%f]\r\n", this->id, this->receivers[0].id, this->population[0].x[0], this->population[0].x[1]);
+        
+    }
+    
     
 };
 
@@ -87,16 +105,11 @@ void create_topology(std::vector<island> &islands) {
     
     for(it = islands.begin(); it != islands.end(); ++it) {
         
-        int next = it->id+1;
+        int next = it->id+1 < islands.size() ? it->id+1 : 0;
+        int prev = it->id-1 < 0 ? (int)islands.size()-1 : it->id-1;
         
-        if(next < islands.size()) {
-            it->neighbors.push_back(islands[next]);
-        } else {
-            next = 0;
-            it->neighbors.push_back(islands[next]);
-        }
-        
-        printf("%d -> %d\r\n", it->id, next);
+        it->receivers.push_back(islands[next]);
+        it->senders.push_back(islands[prev]);
         
     }
     
